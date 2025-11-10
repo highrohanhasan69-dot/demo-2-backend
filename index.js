@@ -1,4 +1,4 @@
-// =======================
+// ======================= 
 //  URBILUX Backend Server
 // =======================
 require("dotenv").config();
@@ -13,28 +13,30 @@ const axios = require("axios");
 
 const app = express();
 
-// ✅ Render proxy trust (important)
+// ✅ Render proxy trust (important for cookies)
 app.set("trust proxy", 1);
 
 // ---------------- MIDDLEWARE ----------------
-// ✅ CORS config (Render + Localhost)
 // ✅ Correct CORS for Render + Cloudflare
 app.use(
   cors({
     origin: [
-       // তোমার frontend domain
-      "https://avadotechdemo2.pages.dev", // trailing slash version (safety)
-      "http://localhost:5173",      // local dev
+      "https://avadotechdemo2.pages.dev", // your Cloudflare frontend
+      "http://localhost:5173",            // local dev
     ],
-    credentials: true,
+    credentials: true, // allow cookies
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
+// ✅ Cookie & JSON parser
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+
+// ✅ Preflight (OPTIONS) requests handled properly
+app.options("*", cors());
 
 // ✅ Request Logger
 app.use((req, res, next) => {
