@@ -16,19 +16,21 @@ const app = express();
 // ✅ Render proxy trust (important for cookies)
 app.set("trust proxy", 1);
 
-// ---------------- MIDDLEWARE ----------------
-// ✅ Correct CORS for Render + Cloudflare
+// ✅ CORS config
 app.use(
   cors({
     origin: [
-      "https://avadotechdemo2.pages.dev", // your Cloudflare frontend
-      "http://localhost:5173",            // local dev
+      "https://avadotechdemo2.pages.dev",
+      "http://localhost:5173",
     ],
-    credentials: true, // allow cookies
+    credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+// ⛔ এই লাইন আর থাকবে না:
+// app.options("/*", cors());
 
 // ✅ Cookie & JSON parser
 app.use(cookieParser());
@@ -36,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ Preflight (OPTIONS) requests handled properly
-app.options("/*", cors());
+
 
 // ✅ Request Logger
 app.use((req, res, next) => {
