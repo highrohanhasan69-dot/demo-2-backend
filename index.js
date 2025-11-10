@@ -22,8 +22,8 @@ app.set("trust proxy", 1);
 app.use(
   cors({
     origin: [
-      "https://urbilux.pages.dev",  // তোমার frontend domain
-      "https://urbilux.pages.dev/", // trailing slash version (safety)
+       // তোমার frontend domain
+      "https://avadotechdemo2.pages.dev", // trailing slash version (safety)
       "http://localhost:5173",      // local dev
     ],
     credentials: true,
